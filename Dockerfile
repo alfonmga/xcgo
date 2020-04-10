@@ -31,7 +31,7 @@ RUN apt-get update && apt-get dist-upgrade -y && apt-get install -y \
       curl \
       jq \
       lsb-core \
-      squashfs-tools
+      squashfs-tools && rm -rf /var/lib/apt/lists/
 
 
 # Grab the core snap (for backwards compatibility) from the stable channel and
@@ -70,7 +70,7 @@ COPY --from=snapbuilder /snap/snapcraft /snap/snapcraft
 COPY --from=snapbuilder /snap/bin/snapcraft /snap/bin/snapcraft
 
 # Generate locale.
-RUN apt-get update && apt-get dist-upgrade -y && apt-get install -y sudo locales && locale-gen en_US.UTF-8
+RUN apt-get update && apt-get dist-upgrade -y && apt-get install -y sudo locales && locale-gen en_US.UTF-8 && rm -rf /var/lib/apt/lists/
 
 # Set the proper environment.
 ENV LANG="en_US.UTF-8"
@@ -88,14 +88,13 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     git \
     jq \
     lsb-core \
-    software-properties-common
+    software-properties-common && rm -rf /var/lib/apt/lists/
 
 ENV GOPATH="/go"
 RUN mkdir -p "${GOPATH}/src"
 
 # As suggested here: https://github.com/golang/go/wiki/Ubuntu
-RUN add-apt-repository -y ppa:longsleep/golang-backports
-RUN apt update && apt install -y golang-go
+RUN add-apt-repository -y ppa:longsleep/golang-backports && apt update && apt install -y golang-go && rm -rf /var/lib/apt/lists/
 
 
 
@@ -128,7 +127,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     wget \
     xz-utils \
     zlib1g-dev  \
-    zsh
+    zsh && rm -rf /var/lib/apt/lists/
 
 
 
@@ -172,7 +171,7 @@ FROM osx-cross AS docker
 RUN apt-get update -y && apt-get install -y --no-install-recommends \
     apt-transport-https \
     ca-certificates \
-    gnupg-agent
+    gnupg-agent && rm -rf /var/lib/apt/lists/
 
 
 RUN curl -fsSL "https://download.docker.com/linux/ubuntu/gpg" | apt-key add - && \
