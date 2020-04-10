@@ -18,14 +18,14 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     git \
     jq \
     lsb-core \
-    software-properties-common && rm -rf /var/lib/apt/lists/
+    software-properties-common && rm -rf /var/lib/apt/lists/*
 
 ENV GOPATH="/go"
 RUN mkdir -p "${GOPATH}/src"
 
 # As suggested here: https://github.com/golang/go/wiki/Ubuntu
 RUN add-apt-repository -y ppa:longsleep/golang-backports
-RUN apt-get update && apt-get install -y golang-go && rm -rf /var/lib/apt/lists/
+RUN apt-get update && apt-get install -y golang-go && rm -rf /var/lib/apt/lists/*
 
 ####################  devtools  ####################
 FROM golangcore AS devtools
@@ -54,7 +54,7 @@ RUN apt-get update && \
     apt-get install -y automake autogen build-essential ca-certificates\
     gcc-9-multilib g++-9-multilib gcc-mingw-w64 g++-mingw-w64 clang \
     libtool libxml2-dev uuid-dev libssl-dev swig pkg-config patch          \
-    make xz-utils cpio wget unzip git mercurial bzr help2man --no-install-recommends && rm -rf /var/lib/apt/lists/
+    make xz-utils cpio wget unzip git mercurial bzr help2man --no-install-recommends && rm -rf /var/lib/apt/lists/*
 
 ####################  xcgo-final  ####################
 FROM devtools AS xcgo-final
